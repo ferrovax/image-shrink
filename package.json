@@ -1,0 +1,22 @@
+{
+  "name": "image-shrink",
+  "version": "1.0.0",
+  "description": "App that optimizes images",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ferrovax/image-shrink.git"
+  },
+  "author": "Jake Yukich",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ferrovax/image-shrink/issues"
+  },
+  "homepage": "https://github.com/ferrovax/image-shrink#readme",
+  "devDependencies": {
+    "electron": "^9.0.2"
+  }
+}
