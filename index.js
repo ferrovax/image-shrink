@@ -59,7 +59,9 @@ const menu = [
       {
         label: 'About',
         click: createAboutWindow
-      }
+      },
+      { role: 'hide' },
+      { role: 'quit' }
     ]
   }] : []),
   {
