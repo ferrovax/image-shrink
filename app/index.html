@@ -39,6 +39,9 @@
         <div class="card-content">
           Ouput Path: <span id="output-path"></span>
         </div>
+        <div class="btn" id="directory">
+          Change Destination
+        </div>
       </div>
     </div>
 
@@ -46,14 +49,26 @@
     <script>
       const path = require('path');
       const os = require('os');
-      const { ipcRenderer } = require('electron');
+      const { ipcRenderer, remote } = require('electron');
 
-      const form = document.querySelector('#image-form');
-      const slider = document.querySelector('#slider');
-      const img = document.querySelector('#img');
+      const form = document.getElementById('image-form');
+      const slider = document.getElementById('slider');
+      const img = document.getElementById('img');
+      const directory = document.getElementById('directory');
 
-      // update this later to allow user to select output path
-      document.querySelector('#output-path').innerText = path.join(os.homedir(), 'imageshrink');
+      document.getElementById('output-path').innerText = path.join(os.homedir(), 'imageshrink');
+
+      // On change destination
+      directory.addEventListener('click', async () => {
+        const { canceled, filePaths } = await remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
+          defaultPath: path.join(os.homedir(), 'imageshrink'),
+          properties: ['openDirectory', 'createDirectory'],
+          buttonLabel: 'Choose'
+        });
+        if (!canceled) {
+          document.getElementById('output-path').innerText = filePaths[0];
+        }
+      });
 
       // On submit
       form.addEventListener('submit', e => {
@@ -61,8 +76,10 @@
 
         const imgPath = img.files[0].path;
         const quality = slider.value;
+        const dest = document.getElementById('output-path').innerText;
+        //console.log(dest);
 
-        ipcRenderer.send('image:shrink', { imgPath, quality });
+        ipcRenderer.send('image:shrink', { imgPath, quality, dest });
       });
 
       // On done

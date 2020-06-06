@@ -7,7 +7,7 @@ const imageminPngquant = require('imagemin-pngquant');
 const slash = require('slash');
 const log = require('electron-log');
 
-process.env.NODE_ENV = 'production'; // Set env
+process.env.NODE_ENV = 'production'; // Set env ('development' or 'production')
 
 const isDev = process.env.NODE_ENV !== 'production';
 const isMac = process.platform === 'darwin';
@@ -24,7 +24,8 @@ function createMainWindow () {
     resizable: isDev,
     backgroundColor: 'white',
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      enableRemoteModule: true
     },
   });
 
@@ -81,7 +82,6 @@ const menu = [
 ];
 
 ipcMain.on('image:shrink', (e, details) => {
-  details.dest = path.join(os.homedir(), 'imageshrink');
   shrinkImage(details);
 });
 
